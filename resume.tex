@@ -1,0 +1,115 @@
+%==============================================================================
+% resume.tex — single-column, ATS-friendly resume
+% Compile: tectonic resume.tex   (or: pdflatex resume.tex)
+%==============================================================================
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage[left=0.7in,right=0.7in,top=0.6in,bottom=0.6in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+
+% --- No page numbers, no headers -------------------------------------------
+\pagestyle{empty}
+\raggedright
+\setlength{\parindent}{0pt}
+
+% --- Section headings: small caps, rule underneath --------------------------
+\titleformat{\section}
+  {\large\bfseries\scshape}{}{0em}{}[\vspace{-0.6em}\rule{\linewidth}{0.6pt}]
+\titlespacing{\section}{0pt}{1.0em}{0.5em}
+
+% --- Bullet lists: tight, plain bullets (ATS parses these fine) -------------
+\setlist[itemize]{leftmargin=1.2em,itemsep=1pt,parsep=0pt,topsep=2pt,label=\textbullet}
+
+% --- Helpers ---------------------------------------------------------------
+% \entry{Organization}{Location}{Role}{Dates}
+\newcommand{\entry}[4]{%
+  \textbf{#1} \hfill #2 \\
+  \textit{#3} \hfill \textit{#4}\vspace{2pt}%
+}
+% \project{Name}{Tech / link}{Dates}
+\newcommand{\project}[3]{%
+  \textbf{#1} \hfill #3 \\
+  \textit{#2}\vspace{2pt}%
+}
+
+%==============================================================================
+\begin{document}
+
+%------------------------------- HEADER ---------------------------------------
+\begin{center}
+  {\LARGE\bfseries Yash Kishore Maheshwari}\\[4pt]
+  Boston, MA $\cdot$ (XXX) XXX-XXXX $\cdot$
+  \href{mailto:maheshwari.ya@northeastern.edu}{maheshwari.ya@northeastern.edu}\\
+  \href{https://linkedin.com/in/YOUR-HANDLE}{linkedin.com/in/YOUR-HANDLE} $\cdot$
+  \href{https://github.com/ymaheshwari2007}{github.com/ymaheshwari2007}
+\end{center}
+
+%------------------------------ EDUCATION -------------------------------------
+\section{Education}
+
+\entry{Northeastern University}{Boston, MA}
+      {Master of Science in FIELD OF STUDY}{Expected MONTH YEAR}
+\begin{itemize}
+  \item Relevant coursework: COURSE, COURSE, COURSE, COURSE
+  \item GPA: X.XX/4.00 \quad (remove this line if it is not a selling point)
+\end{itemize}
+
+\entry{PRIOR UNIVERSITY}{CITY, COUNTRY}
+      {Bachelor of DEGREE in FIELD}{MONTH YEAR}
+
+%--------------------------- TECHNICAL SKILLS ---------------------------------
+\section{Technical Skills}
+
+\textbf{Languages:} Python, Java, SQL, JavaScript/TypeScript, C++ \\
+\textbf{Data \& ML:} pandas, NumPy, PyTorch, scikit-learn, Spark, dbt \\
+\textbf{Cloud \& Infra:} AWS (S3, Lambda, EMR), Docker, Kubernetes, Terraform, Airflow \\
+\textbf{Databases:} PostgreSQL, MySQL, MongoDB, Redis, Snowflake \\
+\textbf{Tools:} Git, Linux, CI/CD (GitHub Actions), Tableau, Jira
+
+%----------------------------- EXPERIENCE -------------------------------------
+\section{Experience}
+
+\entry{COMPANY NAME}{CITY, STATE}
+      {Job Title}{MONTH YEAR -- MONTH YEAR}
+\begin{itemize}
+  \item Action verb + what you built + the tech used, driving METRIC from X to Y.
+  \item Cut PROCESS runtime by NN\% by REPLACING/REDESIGNING SPECIFIC THING, saving N hours per week.
+  \item Owned SYSTEM serving NN,NNN users/requests; reduced error rate from N\% to N\%.
+  \item Partnered with N engineers/analysts to ship FEATURE, adopted by N teams.
+\end{itemize}
+
+\entry{COMPANY NAME}{CITY, STATE}
+      {Job Title}{MONTH YEAR -- MONTH YEAR}
+\begin{itemize}
+  \item Quantified achievement bullet.
+  \item Quantified achievement bullet.
+  \item Quantified achievement bullet.
+\end{itemize}
+
+%------------------------------ PROJECTS --------------------------------------
+\section{Projects}
+
+\project{PROJECT NAME}{Python, PyTorch, AWS $\cdot$ \href{https://github.com/ymaheshwari2007/REPO}{github.com/ymaheshwari2007/REPO}}{MONTH YEAR}
+\begin{itemize}
+  \item What it does, for whom, and the measurable result (accuracy, latency, scale, users).
+  \item A technically specific decision you made and why it mattered.
+\end{itemize}
+
+\project{PROJECT NAME}{Tech, Tech, Tech}{MONTH YEAR}
+\begin{itemize}
+  \item Outcome-focused bullet with a number in it.
+\end{itemize}
+
+%------------------------ CERTIFICATIONS / EXTRAS ------------------------------
+\section{Certifications \& Leadership}
+\begin{itemize}
+  \item CERTIFICATION NAME, Issuing Body --- MONTH YEAR
+  \item ROLE, Organization --- one line on scope and impact.
+\end{itemize}
+
+\end{document}
