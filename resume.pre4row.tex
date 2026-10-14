@@ -1,0 +1,252 @@
+%==============================================================================
+% Yash Kishore Maheshwari — resume
+% Compile:  tectonic resume.tex
+% Then:     cp resume.pdf Yash_Maheshwari_Resume.pdf   (send THAT file)
+%
+% ATS notes: single column. No tables, text boxes, columns, graphics, or
+% headers/footers. Helvetica (an ATS-safe standard font). T1 encoding, so
+% "fi"/"fl" ligatures extract as real characters -- the bug that silently
+% mangled difficulty -> "dif culty" and filtering -> "ltering" in the old PDF.
+%
+% Blocks marked LOCKED are pre-written bullets for work NOT BUILT YET.
+% Do not uncomment one until its condition is true AND the number is measured.
+%==============================================================================
+\documentclass[letterpaper,10pt]{article}
+
+% top=0.5185in, not 0.5in: the 18pt name's ink sits exactly at the text-area
+% top, but pdfplumber/pdfminer measure a glyph box from the font descriptor
+% that overhangs Arial's ink by ~1.3pt, so this is what makes a bbox-based
+% margin check read 0.500in. (It was 0.51in for the same reason under Heros.)
+\usepackage[left=0.5in,right=0.5in,top=0.5185in,bottom=0.5in]{geometry}
+% Arial (system font via fontspec; requires XeTeX). Ligatures=NoCommon is the
+% ATS-critical bit: without it "certification" can embed as U+FB01 and a
+% keyword search for "certification" MISSES it.
+\usepackage{fontspec}
+\setmainfont{Arial}[Ligatures=NoCommon]
+% Known extraction quirk: Arial's cmap maps both U+003B and U+037E (Greek
+% question mark) to the semicolon glyph and this xdvipdfmx's ToUnicode picks
+% U+037E, so a ";" in body text extracts as U+037E. (\XeTeXgenerateactualtext
+% breaks pdftotext under tectonic 0.17, so it is not a fix here.) The current
+% text contains no semicolons; avoid adding any.
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[hidelinks]{hyperref}
+% hidelinks renders links as plain text, so a reader cannot tell they are
+% clickable. ulem's \uline draws a real rule under the link text. It is a
+% graphics op, so extracted text is byte-identical and ATS parsing is
+% unaffected (unlike a colour change). normalem keeps \emph italic.
+\usepackage[normalem]{ulem}
+\let\hrefplain\href
+\renewcommand{\href}[2]{\hrefplain{#1}{\uline{#2}}}
+\usepackage{microtype}
+\microtypesetup{protrusion=false}
+
+\pagestyle{empty}
+\raggedright
+\setlength{\parindent}{0pt}
+\frenchspacing
+
+% --- Section headings ------------------------------------------------------
+% Type scale: name 18 / section 11.5 / entry title 11 / body 10
+\newcommand{\secsize}{\fontsize{11}{12.5}\selectfont}
+\newcommand{\entrysize}{\fontsize{10.5}{12}\selectfont}
+\titleformat{\section}
+  {\secsize\bfseries\MakeUppercase}{}{0em}{}[\vspace{-0.7em}\rule{\linewidth}{0.5pt}]
+\titlespacing{\section}{0pt}{10pt}{0.25em}
+
+% --- Tight bullet lists ---------------------------------------------------
+\setlist[itemize]{leftmargin=1.0em,itemsep=0.2pt,parsep=0pt,topsep=0.8pt,
+                  label=\textbullet,after=\vspace{0pt}}
+
+% --- Entry headers --------------------------------------------------------
+% \entrysep adds inter-entry space only BETWEEN entries. \section resets the
+% flag, so the first entry of a section relies on the section below-skip alone
+% and the two no longer stack (which is what made the section gaps uneven).
+\newif\ifentrygap
+\newcommand{\entrygapsize}{6.4pt}
+% First entry of a section: the 10.5pt entry title sits ~0.4pt higher than the
+% 10pt first line under Education/Skills, so this offset makes the four section
+% gaps measure equal rather than merely have equal baseline skips.
+\newcommand{\entryfirstgap}{0.4pt}
+\newcommand{\entrysep}{\ifentrygap\vspace{\entrygapsize}\else\vspace{\entryfirstgap}\fi\global\entrygaptrue}
+% \section clears the flag so the first entry of a section adds no top space.
+\let\entryorigsection\section
+\renewcommand{\section}{\global\entrygapfalse\entryorigsection}
+\newcommand{\entry}[4]{\entrysep{\entrysize\textbf{#1}} \hfill #2 \\ \textit{#3} \hfill \textit{#4}}
+\newcommand{\project}[3]{\entrysep{\entrysize\textbf{#1}} \ $\vert$ \ \textit{#2} \hfill #3}
+
+% --- Header separator ------------------------------------------------------
+% 0.2222em each side (what \: gives) but as glue with a little shrink. The
+% contact block is now split across two explicitly broken lines (87% and 68%
+% fill), so neither overflows \linewidth and the old \makebox[\linewidth][s]
+% stretch workaround is no longer needed. The shrink is kept as slack.
+\newcommand{\hsep}{\hspace{0.2222em minus 0.1em}$\vert$\hspace{0.2222em minus 0.1em}}
+
+%==============================================================================
+\begin{document}
+
+%------------------------------- HEADER ---------------------------------------
+\begin{center}
+  {\fontsize{18}{20}\selectfont\bfseries Yash Kishore Maheshwari}\\[3pt]
+  \href{mailto:ymaheshwari2007@gmail.com}{ymaheshwari2007@gmail.com}\hsep%
+  \href{https://linkedin.com/in/yash-kishore-maheshwari}{linkedin.com/in/yash-kishore-maheshwari}\hsep%
+  \href{https://github.com/ymaheshwari2007}{github.com/ymaheshwari2007}\\
+  (617) 777-8735\hsep Boston, MA\hsep Seeking Jan--Aug 2027 Co-op (4--8 months) or Summer 2027 Internship
+\end{center}
+
+%------------------------------ EDUCATION -------------------------------------
+\section{Education}
+
+\textbf{Northeastern University}, Boston, MA \hfill Expected May 2029 \\
+B.S. in Computer Science, University Honors Program \hfill
+GPA: \textbf{3.99/4.00} $\vert$ Dean's List
+
+\vspace{1pt}
+\textbf{Coursework:} Algorithms, Computer Systems, Systems Security, Databases, Cloud Computing, Object-Oriented Design \\
+\textbf{Certifications:} AWS Certified Solutions Architect -- Associate, Google Cybersecurity Professional Certificate
+
+%------------------------------ EXPERIENCE ------------------------------------
+\section{Experience}
+
+% === EXPERIENCE: Undergraduate Research Assistant ===
+\entry{Undergraduate Research Assistant}{Jul 2026 -- Present}
+      {Northeastern Khoury Algorithms and Theory Group $\vert$ Chain-of-Thought Complexity $\vert$ PEAK Award}{Boston, MA}
+\begin{itemize}
+  \item Implemented 10 transformer constructions in Python and NumPy from mathematical specifications, building a
+        verification suite covering \textbf{1.7M+ test cases}, including exhaustive checks over selected input ranges.
+  \item Audited stated assumptions against what the proofs use, reporting 11 defects, one prompting a new definition.
+  \item Replaced one-hot positional encoding with spherical codes, cutting \textbf{2,004 dimensions to 37}.
+  \item Backed every reported finding with a re-runnable test in the repo, a standard the faculty lead adopted team-wide.
+\end{itemize}
+% === END EXPERIENCE: Undergraduate Research Assistant ===
+
+% === EXPERIENCE: Teaching Assistant, CS 2100 ===
+\entry{Teaching Assistant, CS 2100}{Jan 2026 -- Present}
+      {Northeastern University, Khoury College of Computer Sciences}{Boston, MA}
+\begin{itemize}
+  \item Led 2 weekly labs and 5 office hours a week for \textbf{200+ students} on data structures, pandas, and graph algorithms,
+        debugging live with them and covering Git, lint rules, and interview-style problems outside the syllabus.
+  \item Evaluated homework and codewalks across 8 assignments with feedback on structure, test coverage, and design.
+  \item Brought recurring misconceptions from office hours to course staff, changing how those topics were re-taught.
+\end{itemize}
+% === END EXPERIENCE: Teaching Assistant, CS 2100 ===
+
+% === EXPERIENCE: Data Visualization Lead ===
+\entry{Data Visualization Lead}{Sep 2025 -- Present}
+      {Northeastern Electric Racing}{Boston, MA}
+\begin{itemize}
+  \item Engineered an unattended post-race pipeline in Python, pandas, and Matplotlib that \textbf{cuts processing time
+        \textasciitilde40\%} and renders a frame-synced telemetry overlay (speed, throttle, brake, pack temp) onto race video for driver debriefs.
+  \item Published \textbf{nercardata} to PyPI after gathering requirements from 4 engineering subteams,
+        standardizing sensor queries so new members could pull clean telemetry without learning the database schema.
+\end{itemize}
+% === END EXPERIENCE: Data Visualization Lead ===
+
+%------------------------------- PROJECTS -------------------------------------
+\section{Projects}
+
+% === PROJECT: DepWatch ===
+\project{DepWatch: Vulnerability Intelligence Platform}{Python, Airflow, AWS, Gemini API}{Sep 2026 -- Present}
+\begin{itemize}
+  \item Built the Airflow pipeline behind a vulnerability scanner, landing GHSA and OSV data in MinIO and
+        transforming it into a \textbf{33,874-record} PostgreSQL corpus matched against a repo's dependency manifest.
+  \item Added a Gemini API layer that assesses whether a flagged package is reachable in the calling code, cutting
+        hundreds of version matches to the few worth acting on; it then writes each fix as a prompt a coding agent can execute.
+  \item Indexed the corpus for search by description rather than CVE ID, using Qwen3 embeddings and an HNSW index in
+        pgvector. Deployed on AWS ECS Fargate, RDS, and MWAA with Terraform.
+\end{itemize}
+% === END PROJECT: DepWatch ===
+
+% === PROJECT: ImpactTrail ===
+\project{ImpactTrail}{Next.js, TypeScript, Prisma, PostgreSQL, Gemini API}{Feb -- May 2026}
+\begin{itemize}
+  \item \textbf{Best Overall Winner, HackBeanpot 2026}. Led the 5-person team and ran the pitch.
+  \item Wrote the prompt layer that turns a resident's complaint into a volunteer quest, feeding the Gemini API every live
+        quest and validating each response against a Zod schema built from the Prisma enums.
+  \item Modeled volunteer-to-quest matching as a \textbf{min-cost flow} capped per volunteer and per quest, over a 13-table schema.
+  \item Set up GitHub Actions CI with type-check, build, and automatic rollback on a failed deploy.
+\end{itemize}
+% === END PROJECT: ImpactTrail ===
+
+% === PROJECT: NU Rate-on ===
+\project{NU Rate-on}{React, Tailwind CSS, Puppeteer, Supabase}{Nov 2025}
+\begin{itemize}
+  \item Ranks campus dining halls head-to-head using student votes. Retrieved menu JSON from the Cloudflare-protected dining
+        API through Puppeteer browser sessions, normalizing halls, meal periods, and per-item nutrients into five tables.
+  \item Wrote the vote and menu APIs on Supabase, with get-or-create ingestion so a daily re-run never duplicates a menu.
+\end{itemize}
+% === END PROJECT: NU Rate-on ===
+
+%-------------------------------- SKILLS --------------------------------------
+\section{Skills}
+
+% === SKILLS: Languages ===
+\textbf{Languages:} Python, Java, TypeScript, JavaScript, SQL \\
+% === END SKILLS: Languages ===
+% === SKILLS: Frameworks & Libraries ===
+\textbf{Frameworks \& Libraries:} React, Next.js, Node.js, FastAPI, pandas, NumPy, pytest, Airflow, MQTT \\
+% === END SKILLS: Frameworks & Libraries ===
+% === SKILLS: Tools & Infrastructure ===
+\textbf{Tools \& Infrastructure:} PostgreSQL, pgvector, AWS (ECS, RDS), Docker, Terraform, GitHub Actions, CVE/CVSS, SBOM
+% === END SKILLS: Tools & Infrastructure ===
+
+\end{document}
+
+%%% =========================================================================
+%%% LOCKED — NOT BUILT YET. Checked against the repo 2026-08-22 (HEAD 07e6767):
+%%% zero LLM code, no Gemini/genai dependency in requirements.txt,
+%%% agent/prompts + monitoring hold only .gitkeep, osv.py and nvd.py are
+%%% 0 bytes, no Trivy harness, no Terraform.
+%%% Uncomment ONE only when its condition is true AND every [bracket] is a
+%%% measured number logged in BENCHMARKS.md.
+%%% =========================================================================
+%
+% --- UNLOCK: Stage 6, Trivy diff harness --- DO THIS FIRST (~0.5 day) -----
+%   Only thing here that gives you a *validation* number. Interviewers love it.
+%  \item Validated the engine against \textbf{Trivy} as an independent baseline
+%        --- \textbf{[X]\%} precision / \textbf{[Y]\%} recall across \textbf{[N]}
+%        repos --- root-causing every divergence, surfacing \textbf{[Z]}
+%        advisories Trivy missed and fixing \textbf{[W]} false positives of our own.
+%
+% --- UNLOCK: Stage 4c, LLM triage ----------------------------------------
+%  \item Built an LLM triage agent that judges exploitability rather than mere
+%        presence: findings are batched and severity-prioritized into a few
+%        Gemini calls returning pydantic-validated verdicts, cutting false
+%        positives \textbf{[X]\%} versus raw version matching.
+%  \item Kept deterministic work in code and gave the LLM only the judgment call,
+%        holding per-scan cost under \textbf{[\$X]} and latency under \textbf{[Y]s}.
+%  \item Designed a provider-agnostic reason() interface with BYO-key support
+%        (Gemini, Claude, GPT, Groq) selectable by env var.
+%
+% --- UNLOCK: Stage 4c+, remediation prompts ------------------------------
+%  \item Extended the agent to emit ready-to-paste remediation prompts, per
+%        finding and consolidated per repo, turning "you are vulnerable" into a fix.
+%
+% --- UNLOCK: Stage 4d, CLI/DAG triggers + agent memory -------------------
+%  \item Persisted findings and per-project agent memory idempotently (project x
+%        dependency x advisory) so repeat scans track how long a finding stayed open.
+%
+% --- UNLOCK: OSV partner branch merged + NVD ------------------------------
+%  \item Engineered multi-source ingestion (GHSA REST, OSV.dev bulk archives, NVD
+%        enrichment) with a cross-source merge reconciling the same CVE across
+%        providers --- \textbf{[X]}K advisories under idempotent upserts.
+%
+% --- UNLOCK: Stage 5, Prometheus + Grafana -------------------------------
+%  \item Instrumented every stage with Prometheus metrics (rows fetched/inserted,
+%        task duration, embedding backlog, findings by severity) and built Grafana
+%        dashboards tracking pipeline health and security posture over time.
+%
+% --- UNLOCK: AWS deploy + Terraform --------------------------------------
+%  \item Deployed to AWS on ECS Fargate with Terraform IaC, migrating the local
+%        stack 1:1 --- MinIO$\to$S3, Postgres$\to$RDS+pgvector,
+%        Compose$\to$Fargate, Airflow$\to$MWAA.
+%
+% --- UNLOCK: GitHub App + OAuth multi-tenancy ----------------------------
+%  \item Built multi-tenant onboarding via a GitHub App reading each repo's
+%        dependency-graph SBOM through the API --- no cloning of untrusted code
+%        --- with OAuth, per-tenant isolation, and BYO-key LLM billing.
+%
+%%% When 4c ships, add to Skills "Data & AI": LLM agents, RAG, structured output,
+%%% prompt engineering.  NOTE: "RAG" is only honest once 4c exists (you need
+%%% retrieval AND generation; today you have retrieval only).
+%%% =========================================================================
